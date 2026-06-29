@@ -48,9 +48,10 @@ md(r"""
 | 7. Funciones universales (ufuncs) | 15 min | sum, mean, std, axis= |
 | 8. Indexing booleano | 15 min | Filtrar filas de una matriz |
 | 9. Reshaping | 15 min | reshape, flatten, transpose |
-| 10. Álgebra lineal básica | 15 min | dot, matmul, linalg.norm |
-| 11. Números aleatorios reproducibles | 10 min | default_rng(seed) |
-| 12. Errores comunes, resumen y quiz | 15 min | Trampas clásicas |
+| 10. Concatenación de arreglos | 10 min | concatenate, hstack, vstack |
+| 11. Álgebra lineal básica | 15 min | dot, matmul, linalg.norm |
+| 12. Números aleatorios reproducibles | 10 min | default_rng(seed) |
+| 13. Errores comunes, resumen y quiz | 15 min | Trampas clásicas |
 
 > 🧭 **Cómo usar este notebook:** lee cada celda de texto antes de ejecutar
 > la celda de código. Detente en los bloques **🤔 ¿Qué pasaría si...?** e
@@ -921,11 +922,88 @@ md(r"""
 
 
 # ===================================================================== #
-# 10. ÁLGEBRA LINEAL BÁSICA
+# 10. CONCATENACIÓN DE ARREGLOS
 # ===================================================================== #
 C += [
 md(r"""
-## 10. Álgebra lineal básica: dot, matmul, linalg.norm
+## 10. Concatenación de arreglos
+
+A veces tienes dos o más arrays que necesitas unir en uno solo.
+NumPy ofrece tres funciones para esto:
+
+| Función | Qué hace |
+|---|---|
+| `np.concatenate([a, b], axis=0)` | une arrays a lo largo de un eje existente |
+| `np.hstack([a, b])` | apila horizontalmente (eje 1 para 2-D, eje 0 para 1-D) |
+| `np.vstack([a, b])` | apila verticalmente (eje 0) |
+
+**Regla:** todos los arrays deben tener el mismo número de dimensiones y
+coincidir en todos los ejes excepto en el que se concatena.
+"""),
+
+code(r"""
+import numpy as np
+
+# 1-D: concatenar dos vectores
+enero  = np.array([120_000, 95_000, 210_000])   # ventas ene
+febrero = np.array([140_000, 88_000, 195_000])  # ventas feb
+
+semestre = np.concatenate([enero, febrero])
+print("1-D concatenado:", semestre)
+print("shape:", semestre.shape)   # (6,)
+"""),
+
+code(r"""
+import numpy as np
+
+# 2-D: apilar filas (vstack) y columnas (hstack)
+bogota   = np.array([[120_000, 95_000],   # ene, feb
+                     [310_000, 56_000]])  # mar, abr  — shape (2, 2)
+medellin = np.array([[140_000, 88_000],
+                     [200_000, 75_000]])  # shape (2, 2)
+
+# vstack: añadir más filas (apilar ciudades)
+por_ciudad = np.vstack([bogota, medellin])
+print("vstack (4x2):\n", por_ciudad)
+print("shape:", por_ciudad.shape)   # (4, 2)
+
+# hstack: añadir más columnas (añadir meses)
+marzo = np.array([[210_000], [88_000]])     # shape (2, 1)
+bogota_3m = np.hstack([bogota, marzo])
+print("\nhstack (2x3):\n", bogota_3m)
+print("shape:", bogota_3m.shape)    # (2, 3)
+"""),
+
+code(r"""
+import numpy as np
+
+# concatenate con axis= explícito — equivalente a vstack/hstack
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6], [7, 8]])
+
+print("axis=0 (vstack):\n", np.concatenate([a, b], axis=0))   # (4, 2)
+print("axis=1 (hstack):\n", np.concatenate([a, b], axis=1))   # (2, 4)
+"""),
+
+md(r"""
+### 🤔 ¿Qué pasaría si...?
+
+- Intentas `np.hstack([np.zeros((3, 2)), np.zeros((4, 2))])`.
+  ¿Funciona? (No: vstack requiere mismas columnas, hstack requiere mismas filas.
+  Aquí hstack necesita 3==4 en filas → ValueError.)
+- ¿Cuál es la diferencia entre `np.concatenate([a, b], axis=0)` y `np.vstack([a, b])`?
+  (Son equivalentes para arrays 2-D; `vstack` también acepta arrays 1-D y los trata
+  como filas automáticamente.)
+"""),
+]
+
+
+# ===================================================================== #
+# 11. ÁLGEBRA LINEAL BÁSICA
+# ===================================================================== #
+C += [
+md(r"""
+## 11. Álgebra lineal básica: dot, matmul, linalg.norm
 
 NumPy tiene soporte nativo para las operaciones de álgebra lineal más comunes.
 Son el corazón de machine learning, visión computacional y optimización.
@@ -1018,11 +1096,11 @@ md(r"""
 
 
 # ===================================================================== #
-# 11. NÚMEROS ALEATORIOS REPRODUCIBLES
+# 12. NÚMEROS ALEATORIOS REPRODUCIBLES
 # ===================================================================== #
 C += [
 md(r"""
-## 11. Números aleatorios reproducibles: default_rng(seed)
+## 12. Números aleatorios reproducibles: default_rng(seed)
 
 Los números "aleatorios" de NumPy son en realidad **pseudoaleatorios**: siguen
 una secuencia determinista iniciada por una **semilla** (seed). Esto es
@@ -1089,11 +1167,11 @@ md(r"""
 
 
 # ===================================================================== #
-# 12. ERRORES COMUNES
+# 13. ERRORES COMUNES
 # ===================================================================== #
 C += [
 md(r"""
-## 12. Errores comunes (y cómo evitarlos)
+## 13. Errores comunes (y cómo evitarlos)
 
 Estos son los errores que verás una y otra vez al empezar con NumPy:
 
@@ -1168,11 +1246,11 @@ print("\nA @ B (multiplicacion matricial):\n", A @ B)
 
 
 # ===================================================================== #
-# 13. RESUMEN Y QUIZ
+# 14. RESUMEN Y QUIZ
 # ===================================================================== #
 C += [
 md(r"""
-## 13. Resumen de la clase
+## 14. Resumen de la clase
 
 | Concepto | En una frase |
 |---|---|
@@ -1185,6 +1263,7 @@ md(r"""
 | **Reducciones** | `sum`, `mean`, `std`, `min`, `max` con `axis=` para elegir dimensión |
 | **Indexing booleano** | filtrar con mask de True/False; devuelve copia |
 | **Reshaping** | `reshape`, `flatten`, `T`; producto de dims debe conservarse |
+| **Concatenación** | `concatenate`, `hstack`, `vstack` para unir arrays |
 | **Álgebra lineal** | `dot`/`@` para matmul, `linalg.norm` para distancias |
 | **Aleatorios** | `default_rng(seed)` para reproducibilidad |
 | **Errores comunes** | vista vs copia, `*` vs `@`, shapes incompatibles |
@@ -1509,6 +1588,7 @@ md(r"""
 | **axis** | eje sobre el que opera una reducción; `axis=0` colapsa filas |
 | **indexing booleano** | filtrar con una máscara de True/False; devuelve copia |
 | **fancy indexing** | seleccionar elementos con un array de índices enteros |
+| **concatenación** | unir arrays a lo largo de un eje con `concatenate`/`hstack`/`vstack` |
 | **norm** | longitud/magnitud de un vector (norma euclidiana L2) |
 | **seed** | valor inicial del generador pseudoaleatorio; fija la reproducibilidad |
 """),

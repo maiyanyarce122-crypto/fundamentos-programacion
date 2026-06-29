@@ -72,26 +72,21 @@ curso/
 | Clase | Tema | Estado |
 |-------|------|--------|
 | 1 | Pensamiento algorítmico y pseudocódigo | ✅ **Completa y verificada** |
-| 2 | Variables, tipos, operadores, condicionales | ⬜ Pendiente (carpeta creada) |
-| 3 | Ciclos, funciones y lambdas | ⬜ Pendiente (carpeta creada) |
-| 4 | Estructuras de datos Python | ⬜ Pendiente (carpeta creada) |
-| 5 | NumPy | ⬜ Pendiente (carpeta creada) |
-| 6 | Pandas | ⬜ Pendiente (carpeta creada) |
-| 7 | EDA y transformación | ⬜ Pendiente (carpeta creada) |
-| 8 | Proyecto integrador | ⬜ Pendiente (carpeta creada) |
+| 2 | Variables, tipos, operadores, condicionales | ✅ **Completa y verificada** |
+| 3 | Ciclos, funciones y lambdas | ✅ **Completa y verificada** |
+| 4 | Estructuras de datos Python | ✅ **Completa y verificada** |
+| 5 | NumPy | ✅ **Completa y verificada** |
+| 6 | Pandas | ✅ **Completa y verificada** |
+| 7 | EDA y transformación | ✅ **Completa y verificada** |
+| 8 | Proyecto integrador | ✅ **Completa y verificada** |
 
-**Hecho hasta ahora**
+**Hecho — curso completo**
 - Andamiaje del repo: `curso/clase01..08/`, `assets/`, `datasets/`, `shared/`.
 - `curso/shared/verificador.py`: utilidad de autocalificación (✅/❌) compartida.
 - `curso/datasets/transacciones.csv`: dataset sintético determinista (120 filas).
-- Clase 1: `lecture` (81 celdas), `practice01`, `practice02`, `homework01`, `homework02`.
+- Clases 1–8: `lecture`, `practice01`, `practice02`, `homework01`, `homework02` (40 notebooks total).
 - `curso/README.md` con la estructura y modo de uso.
-- Generadores reproducibles en `_build/` (usan `nbformat`).
-
-**Pendiente (clases 2–8)** — por cada clase, replicar los 5 notebooks:
-`lecture.ipynb` (80–150 celdas), `practice01.ipynb` (10 ejercicios),
-`practice02.ipynb` (caso aplicado a ciencia de datos), `homework01.ipynb`
-(8 ejercicios autocalificables) y `homework02.ipynb` (mini proyecto).
+- Generadores reproducibles en `_build/` (usan `nbformat`); todos los scripts validan soluciones de referencia en tiempo de build.
 
 ---
 
